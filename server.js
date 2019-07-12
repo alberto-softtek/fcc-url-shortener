@@ -37,6 +37,5 @@ app.listen(port, function () {
 });
 
 app.post('/api/shorturl/new', (req, res) => {
-  console.log(req.body);
-  res.json({url: req.body});
+  res.json({name: req.body.url});
 });
