@@ -58,13 +58,17 @@ app.post('/api/shorturl/new', (req, res) => {
     short_url: randAlphaNum()
   }
   urls.push(shortendUrl);
-  console.log(urls);
   res.json(shortendUrl);
 });
 
 app.get('/api/shorturl/:url', (req, res) => {
-  const url = urls.filter(url => url.short_url === req.params.url);
-  console.log(url);
+  const urlArray = urls.filter(url => url.short_url === req.params.url);
+  
+  if (urlArray.length === 0) {
+    const url = {error: "invalid URL"};
+  } else {
+    const url = urlArray[0];
+  }
   
   res.redirect(url.original_url);
 });
