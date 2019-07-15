@@ -63,8 +63,8 @@ app.post('/api/shorturl/new', (req, res) => {
 });
 
 app.get('/api/shorturl/:url', (req, res) => {
+  const url = urls.filter(url => url.short_url === req.params.url);
+  console.log(url);
   
-  
-  
-  res.redirect('');
+  res.redirect(url.original_url);
 });
