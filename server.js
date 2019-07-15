@@ -9,6 +9,15 @@ var cors = require('cors');
 
 var app = express();
 
+const urls = [];
+
+const randAlphaNum = () => {
+    const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let result = '';
+    for (let i = 6; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+    return result;
+}
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -46,5 +55,10 @@ app.listen(port, function () {
 
 
 app.post('/api/shorturl/new', (req, res) => {
+  const shortendUrl = {
+    
+  }
+  urls.append()
+  
   res.json({name: req.body.url});
 });
