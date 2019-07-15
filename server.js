@@ -3,10 +3,17 @@
 var express = require('express');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 
 var cors = require('cors');
 
 var app = express();
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
 
 // Basic Configuration 
 var port = process.env.PORT || 3000;
