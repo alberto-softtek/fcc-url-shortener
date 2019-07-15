@@ -52,13 +52,19 @@ app.listen(port, function () {
   console.log('Node.js listening ...');
 });
 
-
-
 app.post('/api/shorturl/new', (req, res) => {
   const shortendUrl = {
-    
+    original_url: req.body.url,
+    short_url: randAlphaNum()
   }
-  urls.append()
+  urls.push(shortendUrl);
+  console.log(urls);
+  res.json(shortendUrl);
+});
+
+app.get('/api/shorturl/:url', (req, res) => {
   
-  res.json({name: req.body.url});
+  
+  
+  res.redirect('');
 });
