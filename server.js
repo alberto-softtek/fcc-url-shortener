@@ -6,6 +6,11 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var dns = require('dns');
 
+const options = {
+  family: 6,
+  hints: dns.ADDRCONFIG | dns.V4MAPPED,
+};
+
 var cors = require('cors');
 
 var app = express();
@@ -54,9 +59,8 @@ app.listen(port, function () {
 });
 
 app.post('/api/shorturl/new', (req, res) => {
-  dns.lookup(req.body.url, (err, addresses) => {
-    console.log('addresses: %j', addresses);
-  });
+  dns.lookup('example.com', options, (err, address, family) =>
+  console.log('address: %j family: IPv%s', address, family));
   
   const shortendUrl = {
     original_url: req.body.url,
