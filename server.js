@@ -4,6 +4,7 @@ var express = require('express');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var dns = require('dns');
 
 var cors = require('cors');
 
@@ -53,6 +54,10 @@ app.listen(port, function () {
 });
 
 app.post('/api/shorturl/new', (req, res) => {
+  dns.lookup(req.body.url, (err, addresses) => {
+    console.log('addresses: %j', addresses);
+  });
+  
   const shortendUrl = {
     original_url: req.body.url,
     short_url: randAlphaNum()
@@ -64,11 +69,14 @@ app.post('/api/shorturl/new', (req, res) => {
 app.get('/api/shorturl/:url', (req, res) => {
   const urlArray = urls.filter(url => url.short_url === req.params.url);
   
-  if (urlArray.length === 0) {
-    const url = {error: "invalid URL"};
-  } else {
-    const url = urlArray[0];
-  }
+  // if (urlArray.length === 0) {
+  //   const url = {error: "invalid URL"};
+  //   res.redirect(url);
+  // } else {
+  //   const url = urlArray[0];
+  //   res.redirect(url.original_url);
+  // }
   
-  res.redirect(url.original_url);
+  res.redirect(urlArray[0].original_url);
+  
 });
