@@ -24,6 +24,11 @@ const randAlphaNum = () => {
     return result;
 }
 
+const isAValidURL = (url) => {
+  const urlRegex = /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/;
+  return urlRegex.test(url);
+}
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -59,15 +64,21 @@ app.listen(port, function () {
 });
 
 app.post('/api/shorturl/new', (req, res) => {
-  dns.lookup('example.com', options, (err, address, family) =>
-  console.log('address: %j family: IPv%s', address, family));
-  
-  const shortendUrl = {
-    original_url: req.body.url,
-    short_url: randAlphaNum()
+  if (isAValidURL(req.body.url)) {
+    
+    const shortendUrl = {
+      original_url: req.body.url,
+      short_url: randAlphaNum()
+    }
+    
+    urls.push(shortendUrl);
+    res.json(shortendUrl);
+    
+  } else {
+    res.json({error: "invalid URL"});
   }
-  urls.push(shortendUrl);
-  res.json(shortendUrl);
+  
+  
 });
 
 app.get('/api/shorturl/:url', (req, res) => {
